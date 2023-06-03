@@ -1,49 +1,43 @@
-main{
+body {
   background-color: whitesmoke;
-}
-main .topPic {
-  min-height: 300px;
-  border-radius: 32px;
-  background-image: url(pexels-tim-mossholder-3643925.jpg);
-  font-family: "Pattaya", sans-serif;
-  box-shadow: 0px 10px 22px 0px #000000;
-  background-position: center;
-  background-size: cover;
+
+  font-family: 'Varela Round', sans-serif;
 }
 
-  .bigDomain{
-    font-size: 1.8em;
-    font-family: "Pattaya", sans-serif;
+th,.my-footer {
+  color: rgb(232, 8, 120);
+}
 
-  }
-  
-nav .myScale{
+.bigDomain,
+h2 {
+  font-size: 1.8em;
+  color: rgb(232, 8, 120);
+}
+
+nav .myScale {
   display: inline-block;
   letter-spacing: 1px;
-  font-family: sans-serif;
   margin: 8px;
   text-decoration: none;
   color: black;
   transition: 1000ms;
 }
 
-nav .myScale:hover{
+nav .myScale:hover {
   transform: scale(1.2);
   letter-spacing: 2px;
   color: black;
 }
 
-.text1{
-  font-family: 'Gloria Hallelujah', cursive;
-  font-family: 'Playfair Display', serif;
+.text1 {
   font-size: 1.3em;
 }
 
-.copyBtn{
+.copyBtn {
   transition: 1000ms;
+  color: rgb(232, 8, 120);
 }
 
-.copyBtn:hover{
+.copyBtn:hover {
   transform: scale(1.2);
-  color: blue;
 }
