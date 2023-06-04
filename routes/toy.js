@@ -124,7 +124,13 @@ router.put("/:editId", auth, async (req, res) => {
   }
   try {
     let editId = req.params.editId;
-    let data = await ToysModel.updateOne({ _id: editId, user_id: req.tokenData._id }, req.body)
+    let data;
+    if (req.body.role == "admin") {
+      data = await ToysModel.updateOne({ _id: editId }, req.body);
+    }
+    else {
+      data = await ToysModel.updateOne({ _id: editId, user_id: req.tokenData._id }, req.body)
+    }
     res.json(data);
   }
   catch (err) {
@@ -136,7 +142,12 @@ router.put("/:editId", auth, async (req, res) => {
 router.delete("/:delId", auth, async (req, res) => {
   try {
     let delId = req.params.delId;
-    let data = await ToysModel.deleteOne({ _id: delId, user_id: req.tokenData._id })
+    if (req.body.role == "admin") {
+      data = await ToysModel.deleteOne({ _id: editId }, req.body);
+    }
+    else {
+      let data = await ToysModel.deleteOne({ _id: delId, user_id: req.tokenData._id })
+    }
     res.json(data);
   }
   catch (err) {
