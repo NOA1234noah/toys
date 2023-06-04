@@ -16,6 +16,7 @@ exports.auth = (req,res,next) => {
     console.log(err);
     return res.status(401).json({msg:"Token invalid or expired, log in again or you hacker!"})
   }
+}
   exports.authAdmin= (req,res,next) => {
     let token = req.header("x-api-key");
     if(!token){
@@ -35,4 +36,3 @@ exports.auth = (req,res,next) => {
 
     }
   }
-}

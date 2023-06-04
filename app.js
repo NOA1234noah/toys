@@ -20,8 +20,5 @@ app.use(express.static(path.join(__dirname,"public")))
 routesInit(app);
 
 const server = http.createServer(app);
-
-
-// console.log(process.env.TEST);
 let port = process.env.PORT || 3000
 server.listen(port);
