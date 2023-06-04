@@ -124,7 +124,8 @@ router.put("/:editId", auth, async (req, res) => {
   try {
     let editId = req.params.editId;
     let data;
-    if (req.body.role == "admin") {
+    console.log(req.tokenData);
+    if (req.tokenData.role == "admin") {
       data = await ToysModel.updateOne({ _id: editId }, req.body);
     }
     else {
@@ -141,7 +142,7 @@ router.put("/:editId", auth, async (req, res) => {
 router.delete("/:delId", auth, async (req, res) => {
   try {
     let delId = req.params.delId;
-    if (req.body.role == "admin") {
+    if (req.tokenData.role == "admin") {
       data = await ToysModel.deleteOne({ _id: editId }, req.body);
     }
     else {

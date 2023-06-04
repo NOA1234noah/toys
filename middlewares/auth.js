@@ -9,7 +9,6 @@ exports.auth = (req,res,next) => {
   try{
     let decodeToken = jwt.verify(token,config.tokenSecret);
     req.tokenData = decodeToken;
-
     next();
   }
   catch(err){
