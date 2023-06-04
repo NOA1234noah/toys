@@ -8,15 +8,31 @@ exports.auth = (req,res,next) => {
   }
   try{
     let decodeToken = jwt.verify(token,config.tokenSecret);
-    // add to req , so the next function will recognize
-    // the tokenData/decodeToken
     req.tokenData = decodeToken;
-  
-    // 12311
+
     next();
   }
   catch(err){
     console.log(err);
     return res.status(401).json({msg:"Token invalid or expired, log in again or you hacker!"})
+  }
+  exports.authAdmin= (req,res,next) => {
+    let token = req.header("x-api-key");
+    if(!token){
+      return res.status(401).json({msg:"You need to send token to this endpoint url"})
+    }
+    try{
+      let decodeToken = jwt.verify(token,config.tokenSecret);
+      if(decodeToken.role!="admin"){
+        return res.status(401).json({msg:"token invalid or expired"})
+      }
+      req.tokenData=decodeToken;
+      next();
+    }
+    catch{
+      console.log(err);
+      return res.status(401).json({msg:"Token invalid or expired, log in again or you hacker!"})
+
+    }
   }
 }

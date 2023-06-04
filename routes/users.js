@@ -1,12 +1,11 @@
 const express= require("express");
 const bcrypt = require("bcrypt");
-const {auth} = require("../middlewares/auth");
+const {auth,authAdmin} = require("../middlewares/auth");
 const {UserModel,validUser, validLogin,createToken} = require("../models/userModel")
 const router = express.Router();
 
-router.get("/usersList",auth, async(req,res)=> {
+router.get("/usersList",authAdmin, async(req,res)=> {
   try{
-    (req.body.role).toLowerCase()=="admin"
     let userInfo = await UserModel.find({password:0});
     res.json(userInfo);
   }
@@ -17,7 +16,6 @@ router.get("/usersList",auth, async(req,res)=> {
 })
 
 
-// אזור שמחזיר למשתמש את הפרטים שלו לפי הטוקן שהוא שולח
 router.get("/myInfo",auth, async(req,res) => {
   try{
     let userInfo = await UserModel.findOne({_id:req.tokenData._id},{password:0});
@@ -33,15 +31,11 @@ router.get("/myInfo",auth, async(req,res) => {
 
 router.post("/", async(req,res) => {
   let validBody = validUser(req.body);
-  // במידה ויש טעות בריק באדי שהגיע מצד לקוח
-  // יווצר מאפיין בשם אירור ונחזיר את הפירוט של הטעות
   if(validBody.error){
     return res.status(400).json(validBody.error.details);
   }
   try{
     let user = new UserModel(req.body);
-    // נרצה להצפין את הסיסמא בצורה חד כיוונית
-    // 10 - רמת הצפנה שהיא מעולה לעסק בינוני , קטן
     user.password = await bcrypt.hash(user.password, 10);
 
     await user.save();
@@ -65,17 +59,14 @@ router.post("/login", async(req,res) => {
     return res.status(400).json(validBody.error.details);
   }
   try{
-    // קודם כל לבדוק אם המייל שנשלח קיים  במסד
     let user = await UserModel.findOne({email:req.body.email})
     if(!user){
       return res.status(401).json({msg:"Password or email is worng ,code:2"})
     }
-    // אם הסיסמא שנשלחה בבאדי מתאימה לסיסמא המוצפנת במסד של אותו משתמש
     let authPassword = await bcrypt.compare(req.body.password,user.password);
     if(!authPassword){
       return res.status(401).json({msg:"Password or email is worng ,code:1"});
     }
-    // מייצרים טוקן לפי שמכיל את האיידי של המשתמש
     let token = createToken(user._id);
     res.json({token});
   }

@@ -7,7 +7,6 @@ router.get("/", async (req, res) => {
   let perPage = req.query.perPage || 10;
   let page = req.query.page || 1;
   let sort = req.query.sort || "_id";
-  // מחליט אם הסורט מהקטן לגדול 1 או גדול לקטן 1- מינוס 
   let reverse = req.query.reverse == "yes" ? -1 : 1;
   try {
     let data = await ToysModel.find({})
